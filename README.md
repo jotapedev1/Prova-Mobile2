@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # GameLog
 
 Aplicativo de cadastro de jogos feito com Flutter e Supabase. Cada usuário cria uma conta e mantém a própria lista de jogos, marcando quais já jogou.
@@ -65,3 +66,7 @@ Tabela `games` no PostgreSQL do Supabase:
 | created_at | timestamptz | data de criação |
 
 O acesso é feito por `DatabaseService` (`select`, `insert`, `update`, `delete`). Uma política de segurança (RLS) garante que cada usuário só acessa os próprios jogos.
+=======
+# Prova-Mobile2
+Projeto para prova 2 da matéria de: Programação de Dispositivos Móveis II
+>>>>>>> e6b4187792bf1ee4be05537b67200a56980cd193
