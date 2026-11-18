@@ -24,6 +24,7 @@ class _GameFormScreenState extends State<GameFormScreen> {
   late List<String> _plataformas;
   late bool _jogado;
   
+  static const _opcoes = ['Xbox 360', 'Xbox One', 'Xbox Series', 'PS2', 'PS3', 'PS4', 'PS5', 'PC'];
 
   bool get _editando => widget.game != null;
 
@@ -74,7 +75,6 @@ class _GameFormScreenState extends State<GameFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Set<String> selected = Set.from([]);  // Set to hold selected items
 
     return Scaffold(
       appBar: AppBar(
@@ -97,10 +97,22 @@ class _GameFormScreenState extends State<GameFormScreen> {
                   return null;
                 },
               ),
-              DropdownButtonFormField(
-                hint: Text(_plataformas.isEmpty ? 'Plataformas' : _plataformas.join(', ')),
-                onChanged: (x) {},  // This is required but not used in this custom implementation
-                items: ['Xbox 360', 'Xbox One', 'Xbox Series', 'PS2', 'PS3', 'PS4', 'PS5', 'PC'].map((e) {
+              DropdownButtonFormField<String>(
+                  hint: Text(_plataformas.isEmpty ? 'Plataformas' : _plataformas.join(', ')),
+                  selectedItemBuilder: (context) => _opcoes
+                      .map((_) => Text(_plataformas.isEmpty ? 'Plataformas' : _plataformas.join(', ')))
+                      .toList(),
+                  onChanged: (x) {
+                    if (x == null) return;
+                    setState(() {
+                      if (_plataformas.contains(x)) {
+                        _plataformas.remove(x);
+                      } else {
+                        _plataformas.add(x);
+                      }
+                    });
+                  },
+                  items: _opcoes.map((e) {
                   return DropdownMenuItem(
                     value: e,
                     child: StatefulBuilder(
@@ -109,15 +121,15 @@ class _GameFormScreenState extends State<GameFormScreen> {
                           children: [
                             // Checkbox to select/deselect items
                             Checkbox(
-                              value: selected.contains(e),
+                              value: _plataformas.contains(e),
                               onChanged: (isSelected) {
                                 if (isSelected == true) {
-                                  selected.add(e);  // Add item if selected
+                                  _plataformas.add(e);
                                 } else {
-                                  selected.remove(e);  // Remove item if deselected
+                                  _plataformas.remove(e);
                                 }
-                                _setState(() {});  // Update checkbox state
-                                setState(() {});  // Update parent widget
+                                _setState(() {});
+                                setState(() {});
                               },
                             ),
                             SizedBox(width: 4),  // Add space between checkbox and text
