@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -48,12 +46,10 @@ class _GameFormScreenState extends State<GameFormScreen> {
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
 
-    final plataforma = _plataformas.join(', ');
-
     final game = Game(
       id: widget.game?.id,
       titulo: _tituloController.text.trim(),
-      plataforma: _plataformas.isEmpty ? null : _plataformas,
+      plataforma: _plataformas,
       jogado: _jogado,
     );
 
@@ -97,47 +93,23 @@ class _GameFormScreenState extends State<GameFormScreen> {
                   return null;
                 },
               ),
-              DropdownButtonFormField<String>(
-                  hint: Text(_plataformas.isEmpty ? 'Plataformas' : _plataformas.join(', ')),
-                  selectedItemBuilder: (context) => _opcoes
-                      .map((_) => Text(_plataformas.isEmpty ? 'Plataformas' : _plataformas.join(', ')))
-                      .toList(),
-                  onChanged: (x) {
-                    if (x == null) return;
-                    setState(() {
-                      if (_plataformas.contains(x)) {
-                        _plataformas.remove(x);
-                      } else {
-                        _plataformas.add(x);
-                      }
-                    });
-                  },
-                  items: _opcoes.map((e) {
-                  return DropdownMenuItem(
-                    value: e,
-                    child: StatefulBuilder(
-                      builder: (context, _setState) {
-                        return Row(
-                          children: [
-                            // Checkbox to select/deselect items
-                            Checkbox(
-                              value: _plataformas.contains(e),
-                              onChanged: (isSelected) {
-                                if (isSelected == true) {
-                                  _plataformas.add(e);
-                                } else {
-                                  _plataformas.remove(e);
-                                }
-                                _setState(() {});
-                                setState(() {});
-                              },
-                            ),
-                            SizedBox(width: 4),  // Add space between checkbox and text
-                            Text(e),  // Display item label
-                          ],
-                        );
-                      },
-                    ),
+              const SizedBox(height: 16),
+              const Text('Plataformas'),
+              Wrap(
+                spacing: 8,
+                children: _opcoes.map((p) {
+                  return FilterChip(
+                    label: Text(p),
+                    selected: _plataformas.contains(p),
+                    onSelected: (marcado) {
+                      setState(() {
+                        if (marcado) {
+                          _plataformas.add(p);
+                        } else {
+                          _plataformas.remove(p);
+                        }
+                      });
+                    },
                   );
                 }).toList(),
               ),

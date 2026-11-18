@@ -2,13 +2,13 @@
 class Game {
   final int? id; // null enquanto o jogo ainda não foi salvo
   final String titulo;
-  final List<String>? plataforma;
+  final List<String> plataforma;
   final bool jogado;
 
   const Game({
     this.id,
     required this.titulo,
-    this.plataforma,
+    this.plataforma = const[],
     this.jogado = false,
   });
 

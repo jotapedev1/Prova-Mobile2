@@ -28,7 +28,7 @@ class GameTile extends StatelessWidget {
       ),
       title: Text(game.titulo),
       subtitle: Text(
-        '${(game.plataforma == null || game.plataforma!.isEmpty) ? 'Sem plataforma' : game.plataforma!.join(', ')} · '
+        '${game.plataforma.isEmpty ? 'Sem plataforma' : game.plataforma.join(', ')} · '
         '${game.jogado ? 'Jogado' : 'Não jogado'}',
       ),
       trailing: IconButton(
