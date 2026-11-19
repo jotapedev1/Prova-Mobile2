@@ -68,6 +68,27 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<void> _confirmDelete(Game game) async {
+  final confirmed = await showDialog<bool>(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: const Text('Excluir jogo'),
+      content: Text('Deseja excluir "${game.titulo}"?'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(ctx, false),
+          child: const Text('Cancelar'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(ctx, true),
+          child: const Text('Excluir'),
+        ),
+      ],
+    ),
+  );
+  if (confirmed == true) await _delete(game);
+}
+
   Future<void> _logout() async {
     await _auth.signOut();
     if (!mounted) return;
@@ -117,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
               final game = games[index];
               return GameTile(
                 game: game,
-                onTap: () => _openForm(game),
+                onEdit: () => _openForm(game),
                 onToggle: (value) => _toggleJogado(game, value),
                 onDelete: () => _delete(game),
               );

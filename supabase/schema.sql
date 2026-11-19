@@ -4,7 +4,7 @@ create table public.games (
   id         bigint generated always as identity primary key,
   user_id    uuid not null default auth.uid() references auth.users (id) on delete cascade,
   titulo     text not null,
-  plataforma text,
+  plataforma text[] not null default '{}',
   jogado     boolean not null default false,
   created_at timestamptz not null default now()
 );

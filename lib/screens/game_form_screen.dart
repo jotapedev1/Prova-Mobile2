@@ -22,7 +22,7 @@ class _GameFormScreenState extends State<GameFormScreen> {
   late List<String> _plataformas;
   late bool _jogado;
   
-  static const _opcoes = ['Xbox 360', 'Xbox One', 'Xbox Series', 'PS2', 'PS3', 'PS4', 'PS5', 'PC'];
+  static const _opcoes = ['Xbox 360', 'Xbox One', 'Xbox Series', 'PS2', 'PS3', 'PS4', 'PS5', 'PC', 'Nintendo Switch', 'Nintendo Wii', 'Celular', 'Outro'];
 
   bool get _editando => widget.game != null;
 
