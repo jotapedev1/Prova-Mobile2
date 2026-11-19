@@ -4,7 +4,10 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/auth_service.dart';
 import 'home_screen.dart';
 
-class RegisterScreen extends StatefulWidget {
+/// MESMA COISA QUE O LOGIN, MESMA LÓGICA
+
+class RegisterScreen extends StatefulWidget { /// stateful, tela que pode mudar
+  ///O key é uma identificação interna que o Flutter usa para distinguir widgets
   const RegisterScreen({super.key});
 
   @override

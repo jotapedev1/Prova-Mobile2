@@ -5,6 +5,7 @@ class Game {
   final List<String> plataforma;
   final bool jogado;
 
+  ///Construtor da classe
   const Game({
     this.id,
     required this.titulo,

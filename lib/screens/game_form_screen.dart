@@ -15,13 +15,14 @@ class GameFormScreen extends StatefulWidget {
 }
 
 class _GameFormScreenState extends State<GameFormScreen> {
+  //instâncias importantes
   final _formKey = GlobalKey<FormState>();
   final _db = DatabaseService();
 
   late final TextEditingController _tituloController;
-  late List<String> _plataformas;
+  late List<String> _plataformas; /// lista de plataformas
   late bool _jogado;
-  
+  /// opções de plataformas, multipla escolha
   static const _opcoes = ['Xbox 360', 'Xbox One', 'Xbox Series', 'PS2', 'PS3', 'PS4', 'PS5', 'PC', 'Nintendo Switch', 'Nintendo Wii', 'Celular', 'Outro'];
 
   bool get _editando => widget.game != null;
@@ -37,15 +38,18 @@ class _GameFormScreenState extends State<GameFormScreen> {
     _jogado = widget.game?.jogado ?? false;
   }
 
+  ///limpa tela
   @override
   void dispose() {
     _tituloController.dispose();
     super.dispose();
   }
 
+  //salvar informações
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
 
+    //pega as informações
     final game = Game(
       id: widget.game?.id,
       titulo: _tituloController.text.trim(),
@@ -53,6 +57,7 @@ class _GameFormScreenState extends State<GameFormScreen> {
       jogado: _jogado,
     );
 
+    /// validação de erro
     try {
       if (_editando) {
         await _db.updateGame(game);
@@ -78,12 +83,12 @@ class _GameFormScreenState extends State<GameFormScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Form(
+        child: Form( ///formulário de cadastro
           key: _formKey,
           child: Column(
             children: [
               TextFormField(
-                maxLength: 120,
+                maxLength: 120, ///máximo de caracteres
                 controller: _tituloController,
                 decoration: const InputDecoration(labelText: 'Título'),
                 validator: (value) {
@@ -95,7 +100,7 @@ class _GameFormScreenState extends State<GameFormScreen> {
               ),
               const SizedBox(height: 16),
               const Text('Plataformas'),
-              Wrap(
+              Wrap( ///selecao das plataformas
                 spacing: 8,
                 children: _opcoes.map((p) {
                   return FilterChip(
@@ -111,9 +116,9 @@ class _GameFormScreenState extends State<GameFormScreen> {
                       });
                     },
                   );
-                }).toList(),
+                }).toList(), ///transforma em lista
               ),
-              SwitchListTile(
+              SwitchListTile( /// alavanca de jogado ou não, muda a variável _jogado
                 title: const Text('Já joguei'),
                 value: _jogado,
                 onChanged: (value) => setState(() => _jogado = value),

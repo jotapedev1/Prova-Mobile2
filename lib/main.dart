@@ -6,7 +6,9 @@ import 'screens/login_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  ///Garante que o Flutter já está “ligado” antes de fazer algo assíncrono antes do runApp.
 
+  /// realiza a conexão com banco de dados. espera até conectar
   await Supabase.initialize(
     url: 'https://fpjvermzncmmkpepzihd.supabase.co',
     publishableKey: 'sb_publishable_RDQKgxB-4-84oKq3nbRz0w_SZ5C3_Re',
@@ -32,6 +34,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       ),
+      /// se está logado, a primeira tela é a Home. Senão, é o Login:
       home: logado ? const HomeScreen() : const LoginScreen(),
     );
   }

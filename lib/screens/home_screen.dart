@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _gamesFuture = _db.listGames();
+    _gamesFuture = _db.listGames(); /// a lista futura recebe o estado do banco de dados
   }
 
   /// Cria um novo Future (nova consulta) e redesenha a tela.
@@ -50,49 +50,53 @@ class _HomeScreenState extends State<HomeScreen> {
     if (saved == true && mounted) _reload();
   }
 
+  /// alavanca de jogado ou não, recebe o jogo e o valor booleano.
   Future<void> _toggleJogado(Game game, bool value) async {
     try {
-      await _db.setJogado(game.id!, value);
+      await _db.setJogado(game.id!, value); /// marca no banco como jogado ou não
       if (mounted) _reload();
-    } on PostgrestException catch (e) {
+    } on PostgrestException catch (e) { ///pega um erro
       if (mounted) _showMessage('Erro ao atualizar: ${e.message}');
     }
   }
 
+  /// método de deletar jogo do banco de dados e tela
   Future<void> _delete(Game game) async {
     try {
-      await _db.deleteGame(game.id!);
+      await _db.deleteGame(game.id!); /// deleta do banco.
       if (mounted) _reload();
     } on PostgrestException catch (e) {
-      if (mounted) _showMessage('Erro ao excluir: ${e.message}');
+      if (mounted) _showMessage('Erro ao excluir: ${e.message}'); /// puxa algum erro que pode acontecer
     }
   }
 
+  /// método de confirmação de exclusão de jogo
   Future<void> _confirmDelete(Game game) async {
-  final confirmed = await showDialog<bool>(
+  final confirmed = await showDialog<bool>( ///dialog=janela na tela
     context: context,
     builder: (ctx) => AlertDialog(
       title: const Text('Excluir jogo'),
-      content: Text('Deseja excluir "${game.titulo}"?'),
+      content: Text('Deseja excluir "${game.titulo}"?'), /// puxa o nome do jogo
       actions: [
-        TextButton(
+        TextButton( ///botão cancelar
           onPressed: () => Navigator.pop(ctx, false),
           child: const Text('Cancelar'),
         ),
-        TextButton(
+        TextButton( ///botão excluir
           onPressed: () => Navigator.pop(ctx, true),
           child: const Text('Excluir'),
         ),
       ],
     ),
   );
-  if (confirmed == true) await _delete(game);
+  if (confirmed == true) await _delete(game); ///chama a função de deletar jogo (inclusive do banco)
 }
 
+  ///logout de usuário
   Future<void> _logout() async {
     await _auth.signOut();
     if (!mounted) return;
-    Navigator.pushAndRemoveUntil(
+    Navigator.pushAndRemoveUntil( /// manda de volta para o login
       context,
       MaterialPageRoute(builder: (_) => const LoginScreen()),
       (route) => false,
@@ -111,36 +115,36 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton( /// botão de adicionar jogo
         onPressed: () => _openForm(),
         child: const Icon(Icons.add),
       ),
       body: FutureBuilder<List<Game>>(
-        future: _gamesFuture,
+        future: _gamesFuture, ///promessa de lista futura
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator()); /// bolinha de loading
           }
 
           if (snapshot.hasError) {
             return Center(child: Text('Erro: ${snapshot.error}'));
-          }
+          } /// tratamento de erros
 
           final games = snapshot.data!;
 
           if (games.isEmpty) {
             return const Center(child: Text('Nenhum jogo cadastrado.'));
-          }
+          } /// valida se tem algum jogo cadastrado
 
-          return ListView.builder(
+          return ListView.builder( /// construição da visualização do jogo
             itemCount: games.length,
             itemBuilder: (context, index) {
               final game = games[index];
               return GameTile(
                 game: game,
-                onEdit: () => _openForm(game),
-                onToggle: (value) => _toggleJogado(game, value),
-                onDelete: () => _delete(game),
+                onEdit: () => _openForm(game), /// ícone de lápis para editar
+                onToggle: (value) => _toggleJogado(game, value), /// alavanca de jogado ou  não
+                onDelete: () => _confirmDelete(game), /// icone lixeira para excluir
               );
             },
           );

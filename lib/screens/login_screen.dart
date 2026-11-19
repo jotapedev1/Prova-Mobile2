@@ -5,19 +5,27 @@ import '../services/auth_service.dart';
 import 'home_screen.dart';
 import 'register_screen.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatefulWidget { /// stateful, tela que pode mudar
+  ///O key é uma identificação interna que o Flutter usa para distinguir widgets
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ///o estado de LoginScreen é _LoginScreenState
+  State<LoginScreen> createState() => _LoginScreenState();   /// ligação de duas classes 
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
+  /// final só recebe valor uma vez
+
+  /// chave formulário para validação dos campos
+  final _formKey = GlobalKey<FormState>(); 
+  /// guardar email e senha digitados:
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  /// chama o arquivo de auth que tem login
   final _auth = AuthService();
 
+  /// limpatela
   @override
   void dispose() {
     _emailController.dispose();
@@ -25,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  /// função para exibir mensagem. Normalmente de erro
   void _showMessage(String text) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
   }
@@ -33,6 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!_formKey.currentState!.validate()) return;
 
     try {
+       /// tratamento de email e senha e passagem para método já declarado
       await _auth.signIn(_emailController.text.trim(), _passwordController.text);
       if (!mounted) return;
       // Abre a Home e apaga as telas anteriores (não dá para voltar ao Login).
@@ -41,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (_) => const HomeScreen()),
         (route) => false,
       );
-    } on AuthException catch (e) {
+    } on AuthException catch (e) { /// tratamento de erro
       if (mounted) _showMessage(e.message);
     } catch (_) {
       if (mounted) _showMessage('Erro ao conectar. Verifique a internet.');
@@ -54,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(title: const Text('Login')),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Form(
+        child: Form( /// formulário para inserção de dados
           key: _formKey,
           child: Column(
             children: [

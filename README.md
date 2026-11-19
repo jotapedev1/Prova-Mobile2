@@ -19,8 +19,8 @@ Projeto da P2 de Programação de Dispositivos Móveis II (Fatec).
 
 ## Tecnologias utilizadas
 
-- [Flutter](https://flutter.dev) e Dart
-- [Supabase](https://supabase.com) (PostgreSQL e Auth) com o pacote `supabase_flutter`
+- Flutter e Dart
+- Supabase
 
 ## Estrutura do projeto
 
@@ -47,8 +47,8 @@ A lógica é separada em camadas: as telas (`screens`) cuidam da interface, os s
 1. Instale o [Flutter SDK](https://docs.flutter.dev/get-started/install).
 2. Clone o repositório e baixe as dependências:
    ```bash
-   git clone <url-do-repositorio>
-   cd <pasta-do-projeto>
+   git clone https://github.com/jotapedev1/Prova-Mobile2.git
+   cd gamelog_p2
    flutter pub get
    ```
 3. Banco de dados: o app já aponta para um projeto Supabase configurado no `lib/main.dart`. Para usar o seu próprio projeto:
