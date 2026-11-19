@@ -44,7 +44,7 @@ A lógica é separada em camadas: as telas (`screens`) cuidam da interface, os s
 
 ## Como executar
 
-1. Instale o [Flutter SDK](https://docs.flutter.dev/get-started/install).
+1. Instale o Flutter SDK
 2. Clone o repositório e baixe as dependências:
    ```bash
    git clone https://github.com/jotapedev1/Prova-Mobile2.git

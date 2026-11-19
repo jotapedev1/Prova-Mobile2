@@ -2,6 +2,7 @@
 class Game {
   final int? id; // null enquanto o jogo ainda não foi salvo
   final String titulo;
+  final String? descricao;
   final List<String> plataforma;
   final bool jogado;
 
@@ -9,6 +10,7 @@ class Game {
   const Game({
     this.id,
     required this.titulo,
+    this.descricao,
     this.plataforma = const[],
     this.jogado = false,
   });
@@ -18,6 +20,7 @@ class Game {
     return Game(
       id: map['id'] as int,
       titulo: map['titulo'] as String,
+      descricao: map['descricao'] as String?,
       plataforma: List<String>.from(map['plataforma'] ?? []),
       jogado: map['jogado'] as bool,
     );
@@ -28,6 +31,7 @@ class Game {
   Map<String, dynamic> toMap() {
     return {
       'titulo': titulo,
+      'descricao': descricao,
       'plataforma': plataforma,
       'jogado': jogado,
     };

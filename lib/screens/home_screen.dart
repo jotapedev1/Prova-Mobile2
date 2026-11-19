@@ -142,9 +142,9 @@ class _HomeScreenState extends State<HomeScreen> {
               final game = games[index];
               return GameTile(
                 game: game,
-                onEdit: () => _openForm(game), /// ícone de lápis para editar
+                onEdit: () => _openForm(game), /// função para editar
                 onToggle: (value) => _toggleJogado(game, value), /// alavanca de jogado ou  não
-                onDelete: () => _confirmDelete(game), /// icone lixeira para excluir
+                onDelete: () => _confirmDelete(game), /// função para excluir
               );
             },
           );

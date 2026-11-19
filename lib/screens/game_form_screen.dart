@@ -20,6 +20,7 @@ class _GameFormScreenState extends State<GameFormScreen> {
   final _db = DatabaseService();
 
   late final TextEditingController _tituloController;
+  late final TextEditingController _descricaoController;
   late List<String> _plataformas; /// lista de plataformas
   late bool _jogado;
   /// opções de plataformas, multipla escolha
@@ -33,6 +34,8 @@ class _GameFormScreenState extends State<GameFormScreen> {
     // Na edição, os campos já começam preenchidos.
     _tituloController = TextEditingController(text: widget.game?.titulo);
 
+    _descricaoController = TextEditingController(text: widget.game?.descricao);
+
     _plataformas = List<String>.from(widget.game?.plataforma ?? []);
         
     _jogado = widget.game?.jogado ?? false;
@@ -42,6 +45,7 @@ class _GameFormScreenState extends State<GameFormScreen> {
   @override
   void dispose() {
     _tituloController.dispose();
+    _descricaoController.dispose();
     super.dispose();
   }
 
@@ -53,6 +57,7 @@ class _GameFormScreenState extends State<GameFormScreen> {
     final game = Game(
       id: widget.game?.id,
       titulo: _tituloController.text.trim(),
+      descricao: _descricaoController.text.trim(),
       plataforma: _plataformas,
       jogado: _jogado,
     );
@@ -97,6 +102,11 @@ class _GameFormScreenState extends State<GameFormScreen> {
                   }
                   return null;
                 },
+              ),
+              TextFormField( /// campo de Descrição, igual ao título
+                maxLength: 120,
+                controller: _descricaoController,
+                decoration: const InputDecoration(labelText: 'Descrição do jogo'),
               ),
               const SizedBox(height: 16),
               const Text('Plataformas'),

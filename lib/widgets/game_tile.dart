@@ -10,7 +10,7 @@ class GameTile extends StatelessWidget {
     super.key,
     /// jogo que será mostrado
     required this.game,
-    /// execuções que o usuário pode realizar: 
+    /// ações que o usuário pode realizar: 
     required this.onEdit,
     required this.onToggle,
     required this.onDelete,
@@ -32,7 +32,8 @@ class GameTile extends StatelessWidget {
       ),
       title: Text(game.titulo), /// titulo do jogo
       subtitle: Text( /// plataforma, aparece logo abaixo do titlo
-        '${game.plataforma.isEmpty ? 'Sem plataforma' : game.plataforma.join(', ')} · ' /// pega a lista e divide por virgula
+        'Desc: ${game.descricao}  ·  '
+        'Plataforma: ${game.plataforma.isEmpty ? 'Sem plataforma' : game.plataforma.join(', ')}  ·  ' /// pega a lista e divide por virgula
         '${game.jogado ? 'Jogado' : 'Não jogado'}', /// ao lado da plataforma o status de jogado ou não
       ),
       trailing: Row( /// linha (horizontal)
